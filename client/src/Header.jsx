@@ -1,7 +1,9 @@
+import React from "react";
 import { Link } from "react-router-dom";
+
 export default function Header() {
   return (
-    <header className="p-2 flex justify-between">
+    <header className="flex justify-between">
       <a href="" className="flex items-center gap-1 text-primary">
         <img src="./public/icon.png" alt="" className="h-8 w-8" />
         <span className="font-bold text-xl">airbnb</span>
