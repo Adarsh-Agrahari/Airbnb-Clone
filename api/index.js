@@ -2,9 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
-const User = require("./modelx/User.js");
+const User = require("./models/User.js");
+const bcrypt = require("bcryptjs");
 
 require("dotenv").config();
+
+const PORT = process.env.PORT;
+
+const bcryptSalt = bcrypt.genSaltSync(10);
 
 app.use(express.json());
 
@@ -21,14 +26,16 @@ app.get("/test", (req, res) => {
   res.json("test ok");
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
-  User.create({
+  const userDoc = await User.create({
     name,
     email,
-    password,
+    password: bcrypt.hashSync(password, bcryptSalt),
   });
-  res.json({ name, email, password });
+  res.json(userDoc);
 });
 
-app.listen(4000);
+app.listen(PORT, () => {
+  console.log("Server started on port 4000...");
+});
