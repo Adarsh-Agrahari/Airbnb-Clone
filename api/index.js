@@ -1,21 +1,34 @@
-const express = require('express');
-const cors = require('cors');
-const app=express();
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const mongoose = require("mongoose");
+const User = require("./modelx/User.js");
+
+require("dotenv").config();
 
 app.use(express.json());
 
-app.use(cors({
-    credentials:true,
-    origin:'http://localhost:5173',
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
 
-app.get('/test', (req,res) => {
-    res.json('test ok');
+mongoose.connect(process.env.MONGODB_URL);
+
+app.get("/test", (req, res) => {
+  res.json("test ok");
 });
 
-app.post('/register',(req,res)=>{
-    const {name,email,password}=req.body;
-    res.json({name,email,password});
+app.post("/register", (req, res) => {
+  const { name, email, password } = req.body;
+  User.create({
+    name,
+    email,
+    password,
+  });
+  res.json({ name, email, password });
 });
 
 app.listen(4000);
