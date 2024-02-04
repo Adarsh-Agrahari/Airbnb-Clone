@@ -23,19 +23,19 @@ export default function RegisterPage() {
             type="text"
             placeholder="John Doe"
             value={name}
-            onChange={(e) => setName(e.target.Value)}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             type="email"
             placeholder="your@email.com"
             value={email}
-            onChange={(e) => setEmail(e.target.Value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="password"
             value={password}
-            onChange={(e) => setPassword(e.target.Value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button className="primary">Register</button>
           <div className="text-center p-2 text-gray-500">
