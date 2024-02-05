@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <header className="flex justify-between">
       <a href="" className="flex items-center gap-1 text-primary">
-        <img src="./public/icon.png" alt="" className="h-8 w-8" />
+        <img src="icon.png" alt="" className="h-8 w-8" />
         <span className="font-bold text-xl">airbnb</span>
       </a>
       <div className="flex gap-2 border border-width-14 border-gray-300 rounded-full py-2 pl-4 pr-2 shadow-md shadow-grey-300">
