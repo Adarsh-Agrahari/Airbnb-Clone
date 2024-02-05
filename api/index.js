@@ -35,10 +35,25 @@ app.post("/register", async (req, res) => {
       password: bcrypt.hashSync(password, bcryptSalt),
     });
     res.json(userDoc);
-  }
-  catch(e){
+  } catch (e) {
     res.status(422).json(e);
-  }  
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const userDoc = await User.findOne({ email });
+  if (userDoc) {
+    const passOk = bcrypt.compareSync(password, userDoc.password);
+    if(passOk){
+      res.json("Password ok");
+    }
+    else {
+      res.status(422).json("Password not ok")
+    }
+  } else {
+    res.json("Not Found.");
+  }
 });
 
 app.listen(PORT, () => {
