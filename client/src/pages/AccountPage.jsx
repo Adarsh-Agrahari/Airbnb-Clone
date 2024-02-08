@@ -1,18 +1,26 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../userContext";
 import { Link, Navigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function AccountPage() {
-  const { ready, user } = useContext(UserContext);
+  const [redirect, setRedirect] = useState(null);
+  const { ready, user, setUser } = useContext(UserContext);
 
   let { subpage } = useParams();
   if (subpage === undefined) subpage = "profile";
+
+  async function logout() {
+    await axios.post("/logout");
+    setRedirect("/");
+    setUser(null);
+  }
 
   if (!ready) {
     return "Loading...";
   }
 
-  if (ready && !user) {
+  if (ready && !user && !redirect) {
     return <Navigate to={"/login"} />;
   }
 
@@ -23,9 +31,13 @@ export default function AccountPage() {
     return classes;
   }
 
+  if (redirect) {
+    return <Navigate to={redirect} />;
+  }
+
   return (
     <div>
-      <nav className="w-full flex justify-center mt-4 gap-2 ">
+      <nav className="w-full flex justify-center mt-4 gap-2 mb-6">
         <Link className={linkClasses("profile")} to={"/account"}>
           My Profile
         </Link>
@@ -36,6 +48,14 @@ export default function AccountPage() {
           My Accomodations
         </Link>
       </nav>
+      {subpage == "profile" && (
+        <div className="text-center">
+          Logged in as {user.name} ({user.email}) <br />
+          <button onClick={logout} className="primary max-w-sm mx-auto mt-2">
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 }
