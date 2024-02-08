@@ -6,10 +6,10 @@ export default function Header() {
   const { user } = useContext(UserContext);
   return (
     <header className="flex justify-between">
-      <a href="" className="flex items-center gap-1 text-primary">
+      <Link to={"/"} href="" className="flex items-center gap-1 text-primary">
         <img src="icon.png" alt="" className="h-8 w-8" />
         <span className="font-bold text-xl">airbnb</span>
-      </a>
+      </Link>
       <div className="flex gap-2 border border-width-14 border-gray-300 rounded-full py-2 pl-4 pr-2 shadow-md shadow-grey-300">
         <div>Anywhere</div>
         <div className="border-l border-gray-300"></div>
@@ -34,7 +34,7 @@ export default function Header() {
         </button>
       </div>
       <Link
-        to={"/login"}
+        to={user ? "/account" : "/login"}
         className="flex items-center gap-2 border border-width-14 border-gray-300 rounded-full py-2 px-4"
       >
         <svg
