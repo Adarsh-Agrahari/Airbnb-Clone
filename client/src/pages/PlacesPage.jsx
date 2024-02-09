@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Perks from "../Perks";
+import axios from "axios";
 
 export default function PlacesPage() {
   const { action } = useParams();
@@ -27,6 +28,16 @@ export default function PlacesPage() {
         {inputDescription(description)}
       </>
     );
+  }
+  async function addPhotoByLink(ev) {
+    ev.preventDefault();
+    const { data: filename } = await axios.post("/upload-by-link", {
+      link: photoLink,
+    });
+    setAddedPhotos((prev) => {
+      return [...prev, filename];
+    });
+    setPhotoLink("");
   }
   return (
     <div>
@@ -80,11 +91,16 @@ export default function PlacesPage() {
                 onChange={(ev) => setPhotoLink(ev.target.value)}
                 placeholder="Add using a link....jpg"
               />
-              <button className="bg-gray-200 px-4 rounded-2xl">
+              <button
+                onClick={addPhotoByLink}
+                className="bg-gray-200 px-4 rounded-2xl"
+              >
                 Add&nbsp;photo
               </button>
             </div>
             <div className="mt-2 grid grid-cols-3 md-grid-cols-4 lg:grid-cols-6">
+              {addedPhotos.length > 0 &&
+                addedPhotos.map((link) => <div>{link}</div>)}
               <button className="p-8 text-xl rounded-2xl border bg-transparent flex justify-center gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
