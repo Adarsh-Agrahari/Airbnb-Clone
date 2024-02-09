@@ -64,7 +64,7 @@ export default function PlacesPage() {
         </div>
       )}
       {action === "new" && (
-        <div className="flex justify-center">
+        <div>
           <form>
             {preInput(
               "Title",
@@ -98,10 +98,18 @@ export default function PlacesPage() {
                 Add&nbsp;photo
               </button>
             </div>
-            <div className="mt-2 grid grid-cols-3 md-grid-cols-4 lg:grid-cols-6">
+            <div className="mt-2 grid gap-2 grid-cols-3 md-grid-cols-4 lg:grid-cols-6">
               {addedPhotos.length > 0 &&
-                addedPhotos.map((link) => <div>{link}</div>)}
-              <button className="p-8 text-xl rounded-2xl border bg-transparent flex justify-center gap-1">
+                addedPhotos.map((link) => (
+                  <div>
+                    <img
+                      className="rounded-2xl"
+                      src={"http://localhost:4000/uploads/" + link}
+                      alt=""
+                    />
+                  </div>
+                ))}
+              <button className="p-2 text-xl rounded-2xl border bg-transparent flex items-center justify-center gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
