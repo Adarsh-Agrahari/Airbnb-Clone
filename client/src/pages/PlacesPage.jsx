@@ -81,7 +81,7 @@ export default function PlacesPage() {
         </div>
       )}
       {action === "new" && (
-        <div>
+        <div className="w-2/3 mx-auto">
           <form>
             {preInput(
               "Title",
@@ -112,7 +112,7 @@ export default function PlacesPage() {
                 onClick={addPhotoByLink}
                 className="bg-gray-200 px-4 rounded-2xl"
               >
-                Add&nbsp;photo
+                Add&nbsp;photoF
               </button>
             </div>
             <div className="mt-2 grid gap-2 grid-cols-3 md-grid-cols-4 lg:grid-cols-6">
@@ -156,7 +156,7 @@ export default function PlacesPage() {
               onChange={(ev) => setDescription(ev.target.value)}
             />
             {preInput("Perks", "Select all perks of your place")}
-            <div className="mt-2 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            <div className="mt-2 grid gap-2 grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
               <Perks selected={perks} onChange={setPerks} />
             </div>
             {preInput("Extra Info", "house-rules, etc.")}
