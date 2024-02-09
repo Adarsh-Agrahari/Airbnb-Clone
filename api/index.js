@@ -7,6 +7,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
+const multer = require("multer");
+const fs = require("fs");
 
 require("dotenv").config();
 
@@ -88,12 +90,26 @@ app.post("/logout", (req, res) => {
 
 app.post("/upload-by-link", async (req, res) => {
   const { link } = req.body;
-  const newName = "photo" + Date.now() + ".jpg";
+  const newName = "img" + Date.now() + ".png";
   await imageDownloader.image({
     url: link,
     dest: __dirname + "/uploads/" + newName,
   });
   res.json(newName);
+});
+
+const photoMiddleware = multer({ dest: "uploads" });
+app.post("/upload", photoMiddleware.array("photos", 10), (req, res) => {
+  const uploadedFiles = [];
+  for (let i = 0; i < req.files.length; i++) {
+    const { path, originalname } = req.files[i];
+    const parts = originalname.split("/");
+    const ext = parts[parts.length - 1];
+    const newPath = path + "." + ext;
+    fs.renameSync(path, newPath);
+    uploadedFiles.push(newPath.replace("uploads", ""));
+  }
+  res.json(uploadedFiles);
 });
 
 app.listen(PORT, () => {

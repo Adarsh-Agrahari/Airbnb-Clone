@@ -39,6 +39,23 @@ export default function PlacesPage() {
     });
     setPhotoLink("");
   }
+  function uploadPhoto(ev) {
+    const files = ev.target.files;
+    const data = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      data.append("photos", files[i]);
+    }
+    axios
+      .post("/upload", data, {
+        headers: { "Content-type": "multipart/form-data" },
+      })
+      .then((response) => {
+        const { data: filenames } = response;
+        setAddedPhotos((prev) => {
+          return [...prev, ...filenames];
+        });
+      });
+  }
   return (
     <div>
       {action !== "new" && (
@@ -109,7 +126,13 @@ export default function PlacesPage() {
                     />
                   </div>
                 ))}
-              <button className="p-2 text-xl rounded-2xl border bg-transparent flex items-center justify-center gap-1">
+              <label className="cursor-pointer p-2 text-xl rounded-2xl border bg-transparent flex items-center justify-center gap-1">
+                <input
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={uploadPhoto}
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -125,7 +148,7 @@ export default function PlacesPage() {
                   />
                 </svg>
                 Upload
-              </button>
+              </label>
             </div>
             {preInput("Description", "Description to this place")}
             <textarea
@@ -133,7 +156,7 @@ export default function PlacesPage() {
               onChange={(ev) => setDescription(ev.target.value)}
             />
             {preInput("Perks", "Select all perks of your place")}
-            <div className="mt-2 grid gap-2 grid-cols-2 md:grid-cols-3 lg::grid-cols-6">
+            <div className="mt-2 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
               <Perks selected={perks} onChange={setPerks} />
             </div>
             {preInput("Extra Info", "house-rules, etc.")}
