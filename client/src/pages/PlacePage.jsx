@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import BookingOption from "../BookingOption";
 
 export default function PlacePage() {
   const { id } = useParams();
@@ -22,7 +23,9 @@ export default function PlacePage() {
       <div className="absolute inset-0 bg-black min-h-screen">
         <div className="bg-black py-8 px-16 grid gap-4 ">
           <div>
-            <h2 className="text-3xl text-white">Photos of {place.title}</h2>
+            <h2 className="text-3xl text-white mr-60">
+              Photos of {place.title}
+            </h2>
             <button
               onClick={() => setShowAllPhotos(false)}
               className="fixed right-12 top-8 flex gap-1 py-2 px-4 rounded-2xl shadow-md shadow-gray-500 bg-white text-black"
@@ -44,11 +47,15 @@ export default function PlacePage() {
               Close Photos
             </button>
           </div>
-          <div className="lg:w-2/3 lg:mx-auto grid gap-4 grid-cols-2">
+          <div className="lg:w-4/5 lg:mx-auto grid gap-4 grid-cols-2">
             {place?.photos?.length > 0 &&
               place.photos.map((photo) => (
                 <div className="rounded-2xl overflow-hidden">
-                  <img className="object-cover aspect-[4/3]" src={"http://localhost:4000/uploads/" + photo} alt="" />
+                  <img
+                    className="object-cover aspect-[4/3]"
+                    src={"http://localhost:4000/uploads/" + photo}
+                    alt=""
+                  />
                 </div>
               ))}
           </div>
@@ -59,7 +66,7 @@ export default function PlacePage() {
 
   return (
     <div className="mt-4 bg-gray-100 rounded-2xl px-8 py-8 lg:w-2/3 lg:mx-auto">
-      <h1 className="text-3xl truncate">{place.title}</h1>
+      <h1 className="text-3xl truncate pb-1">{place.title}</h1>
       <a
         className="flex gap-1 my-3 font-semibold underline"
         target="_blank"
@@ -155,6 +162,29 @@ export default function PlacePage() {
           </svg>
           Show more photos
         </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] mt-8 gap-4">
+        <div>
+          <div className="mb-4">
+            <h2 className="font-semibold text-2xl">Description</h2>
+            {place.description}
+          </div>
+          Check-In : {place.checkIn}
+          <br />
+          Check-Out : {place.checkOut}
+          <br />
+          Max no. of guests : {place.maxGuests}
+        </div>
+        <div>
+          <BookingOption place={place} />
+        </div>
+      </div>
+      <div>
+        <h2 className="font-semibold text-2xl">Extra Info</h2>
+        <div className="my-2 text-md text-gray-700 leading-5">
+          {place.extraInfo}
+        </div>
       </div>
     </div>
   );
